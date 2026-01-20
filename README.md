@@ -17,12 +17,7 @@ Airflow 2.10.3 を実行するためのDocker環境です。
    poetry install
    ```
 
-2. Dockerイメージをビルド
-   ```bash
-   docker build -t airflow:2.10.3 .
-   ```
-
-3. コンテナを実行
-   ```bash
-   docker run -it airflow:2.10.3
-   ```
+2. ビルドアンド実行
+    ```bash
+    docker build -t airflow:2.10.3 . && docker run -it -p 8080:8080 airflow:2.10.3
+    ```

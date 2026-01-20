@@ -7,20 +7,23 @@ RUN apt-get update && \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/*
 
-RUN pip install -U pip --no-chache-dir
+RUN pip install -U pip --no-cache-dir
 
 RUN curl -sSL https://install.python-poetry.org | python3 -
 
-COPY ./poetry.lock ./pyproject.toml ./poetry.toml ./
+COPY ./pyproject.toml ./poetry.toml ./
 
-RUN /root/.local/bin/poetry install --only-main
+RUN /root/.local/bin/poetry install --only=main --no-root
 
 ENV PYTHONDONTWRITEBYTECODE=1 \
     PYTHONUNBUFFERED=1 \
     PYTHONUTF8=1 \
     PIP_NO_CACHE_DIR=off \
-    PIP_DISABLE_PIP_VERSION_CHECK=on
+    PIP_DISABLE_PIP_VERSION_CHECK=on \
+    PATH="/app/.venv/bin:$PATH" \
+    AIRFLOW__CORE__LOAD_EXAMPLES=False \
+    AIRFLOW__CORE__DAGS_FOLDER=/app/dags
 
-COPY ./app/ /app
+COPY ./dags/ /app/dags/
 
-CMD [ "/app/.venv/bin/python", "main.py" ]
+CMD [ "airflow", "standalone" ]

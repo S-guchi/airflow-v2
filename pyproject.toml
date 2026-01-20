@@ -6,7 +6,7 @@ authors = ["Your Name <your.email@example.com>"]
 readme = "README.md"
 
 [tool.poetry.dependencies]
-python = "^3.12"
+python = ">=3.12,<3.13"
 apache-airflow = "2.10.3"
 apache-airflow-providers-postgres = "^5.0.0"
 
